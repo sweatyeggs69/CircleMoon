@@ -1,6 +1,6 @@
-// CircleMoon's colors for the shared launcher theme (theme.h): near-black night surfaces with a
-// wine tint, a blood-crimson accent after Dracula's castle, and a pale moonlight-gold focus ring
-// for the circle of the moon. This is the only theme file that differs between ports.
+// CircleMoon's colors for the shared launcher theme (theme.h): deep maroon surfaces, a bright
+// crimson accent after Dracula's castle, and a pale moonlight-gold focus ring for the circle of
+// the moon. This is the only theme file that differs between ports.
 #include "app/theme.h"
 
 namespace circlemoon::theme {
@@ -11,23 +11,23 @@ ImVec4 rgb(int r, int g, int b, float a = 1.0f) { return ImVec4(r / 255.0f, g / 
 
 const Palette& palette() {
     static const Palette p{
-        rgb(17, 12, 18),            // surface
-        rgb(25, 18, 27),            // card
-        rgb(35, 25, 38),            // raised
-        rgb(46, 33, 50),            // high
-        rgb(230, 200, 220, 0.14f),  // line
-        rgb(248, 242, 246),         // ink
-        rgb(208, 190, 202),         // ink_muted
-        rgb(150, 132, 146),         // ink_faint
-        rgb(196, 38, 58),           // accent (crimson)
-        rgb(220, 64, 84),           // accent_hover
-        rgb(164, 26, 44),           // accent_active
-        rgb(196, 38, 58, 0.18f),    // accent_soft
+        rgb(46, 10, 18),            // surface (maroon)
+        rgb(60, 15, 25),            // card
+        rgb(76, 21, 33),            // raised
+        rgb(94, 28, 42),            // high
+        rgb(255, 205, 215, 0.16f),  // line
+        rgb(252, 244, 246),         // ink
+        rgb(222, 196, 204),         // ink_muted
+        rgb(170, 134, 146),         // ink_faint
+        rgb(214, 46, 66),           // accent (crimson)
+        rgb(232, 74, 92),           // accent_hover
+        rgb(180, 32, 50),           // accent_active
+        rgb(214, 46, 66, 0.20f),    // accent_soft
         rgb(255, 244, 246),         // on_accent
         rgb(236, 220, 160),         // highlight (moonlight gold)
         rgb(52, 211, 153),          // good
         rgb(248, 113, 113),         // bad
-        rgb(120, 20, 36),           // glow
+        rgb(150, 30, 48),           // glow
     };
     return p;
 }
