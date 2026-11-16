@@ -43,9 +43,9 @@ inline constexpr const char* kSaveChip = "SRAM";
 // is explicit.
 inline constexpr std::string_view kSaveHeader{"DRACULA AGB\0", 12};
 
-// Widescreen view (16:10 and 16:9). The extra columns need the room layout in RAM, which is not
-// mapped for this game yet (src/gba/wide_level.cpp), so the option stays hidden and the picture 3:2.
-inline constexpr bool kWidescreen = false;
+// Widescreen view (16:10 and 16:9). The extra columns are rebuilt from the room in RAM by
+// src/gba/wide_level.cpp; false hides the option and keeps the picture 3:2.
+inline constexpr bool kWidescreen = true;
 
 // Nathan's stats (EWRAM), used by the cheats menu. All u16 unless noted.
 //   0x0202562E HP   0x02025632 max HP   0x02025636 MP   0x0202563A max MP
