@@ -2,7 +2,8 @@
 // Cheats menu toggles (F1 > Cheats). After every game frame the host calls apply() on the game's
 // EWRAM, which tops the chosen stats back up to Nathan's current maximums: HP, MP and hearts
 // (subweapon ammo). Nothing is written unless the stats look like a loaded game (level and
-// maximums in range), so the title and file select screens are left alone. Off while
+// maximums in range), so the title and file select screens are left alone (the
+// title screen's attract demo does load stats, so the cheats also top it up, which is harmless). Off while
 // RetroAchievements hardcore mode is on. The cheats never raise a maximum.
 //
 // Settings (circlemoon::Config): cheats.hp, cheats.mp, cheats.hearts (all off by default).

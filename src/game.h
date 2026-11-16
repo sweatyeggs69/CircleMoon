@@ -37,9 +37,11 @@ inline constexpr const char* kExpectedSha1 = "d661b01eb94186435723ac03344792c11c
 // picks the chip from that string; this is the size of the save file it writes.
 inline constexpr std::size_t kSaveSize = 32 * 1024;
 inline constexpr const char* kSaveChip = "SRAM";
-// Bytes the game writes at the start of its save, used to reject saves from other games. Empty
-// disables the check until the signature is read from a real save.
-inline constexpr std::string_view kSaveHeader{};
+// Bytes the game writes at the start of its save, used to reject saves from other games. The game
+// writes "DRACULA AGB" and a closing zero at SRAM 0 on first boot, before any file is made
+// (confirmed on 2026-11-16 against the save the game creates). It holds a zero byte, so the length
+// is explicit.
+inline constexpr std::string_view kSaveHeader{"DRACULA AGB\0", 12};
 
 // Widescreen view (16:10 and 16:9). The extra columns need the room layout in RAM, which is not
 // mapped for this game yet (src/gba/wide_level.cpp), so the option stays hidden and the picture 3:2.
