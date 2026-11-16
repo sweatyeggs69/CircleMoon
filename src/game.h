@@ -27,13 +27,14 @@ inline constexpr const char* kGameCode = "AAME";             // 0xAC, 4 bytes
 inline constexpr unsigned kRevision = 0;                     // 0xBC
 inline constexpr std::size_t kRomSize = 8 * 1024 * 1024;
 
-// SHA-1 of the known-good dump (lowercase hex). Not pinned yet: it gets filled in from the
-// maintainer's own cartridge dump (CRC32 1CC059A4 per Data Crystal). While it is empty, a ROM is
-// accepted on a header match and the launcher labels it "header match (fingerprint not pinned yet)".
-inline constexpr const char* kExpectedSha1 = "";
+// SHA-1 of the known-good dump (lowercase hex), checked against the maintainer's own cartridge
+// dump on 2026-11-16 (MD5 50a1089600603a94e15ecf287f8d5a1f, CRC32 1CC059A4). If this is ever
+// emptied, a ROM is accepted on a header match instead and the launcher labels it "header match
+// (fingerprint not pinned yet)".
+inline constexpr const char* kExpectedSha1 = "d661b01eb94186435723ac03344792c11c20c522";
 
-// Battery save. The runtime picks the chip from the library string in the ROM; this is the size of
-// the save file it writes. To be confirmed against the ROM (TODO before release).
+// Battery save: 256 Kbit (32 KiB) SRAM (the ROM carries the SRAM_V110 library string). The runtime
+// picks the chip from that string; this is the size of the save file it writes.
 inline constexpr std::size_t kSaveSize = 32 * 1024;
 inline constexpr const char* kSaveChip = "SRAM";
 // Bytes the game writes at the start of its save, used to reject saves from other games. Empty
