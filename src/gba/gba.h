@@ -73,7 +73,11 @@ public:
     // Widescreen: extra columns per side to render (0 = off, the default). framebuffer() is
     // always the plain 240x160 view; wide_framebuffer() is wide_width() x 160 with the same
     // view in the middle.
-    void set_wide_margin(int margin);
+    // With wide_sprites the game's sprite on-screen check is widened by the margin too (a small
+    // patch to the game's sprite code in IWRAM, see wide_level.cpp), so enemies and items are
+    // drawn in the extra columns instead of popping in at the old edge. The host turns it off
+    // where game changes are not allowed (RetroAchievements hardcore).
+    void set_wide_margin(int margin, bool wide_sprites = true);
     int wide_margin() const { return wide_margin_; }
     int wide_width() const { return kScreenWidth + 2 * wide_margin_; }
     const u16* wide_framebuffer() const { return wide_margin_ ? wide_frame_.data() : frame_.data(); }
@@ -181,6 +185,7 @@ private:
     // Widescreen level reconstruction (wide_level.cpp, specific to this game).
     void wide_level_detect();
     u16 wide_level_entry(int bg, s32 tx, s32 ty) const;  // entry of wide_level_[bg] at level tile (tx, ty)
+    void wide_sprite_patch(int margin);  // 0 restores the original code
     u16 wide_ram16(u32 a) const;
     u32 wide_ram32(u32 a) const;
     void ppu_render_affine_bg(int bg, u16* color, u8* opaque);
@@ -279,6 +284,7 @@ private:
     std::array<u8, kMaxLineWidth> obj_semi_{};
     std::array<u8, kMaxLineWidth> obj_window_{};
     int wide_margin_ = 0;
+    bool wide_sprites_ = true;
     std::vector<u16> wide_frame_;  // wide_width() x kScreenHeight when wide_margin_ > 0
     // Not emulation state: rebuilt from RAM/VRAM/IO at line 0 of every frame.
     // What the extra widescreen columns of each background show (decided in wide_level.cpp):
