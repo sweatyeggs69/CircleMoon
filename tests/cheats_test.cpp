@@ -43,6 +43,24 @@ int main() {
     CHECK(cheats::apply(ram, Flags{false, true, true}));
     CHECK(get16(ram, kMpAddress) == 30 && get16(ram, kHeartsAddress) == 10);
 
+    // Unlocks.
+    using circlemoon::cheats::Unlock;
+    namespace g = circlemoon::game;
+    ram[at(g::kCardsAddress) + 3] = 7;  // one card already owned keeps its value
+    CHECK(cheats::grant(ram, Unlock::Cards));
+    for (unsigned i = 0; i < g::kCardCount; ++i) CHECK(ram[at(g::kCardsAddress) + i] == (i == 3 ? 7 : 1));
+    CHECK(ram[at(g::kCardsAddress) + g::kCardCount] == 0);  // nothing past the cards
+    CHECK(cheats::grant(ram, Unlock::Relics));
+    for (unsigned i = 0; i < g::kRelicCount; ++i) CHECK(ram[at(g::kRelicsAddress) + i] == 1);
+    CHECK(ram[at(g::kRelicsAddress) - 1] == 0);  // max-up counters untouched
+    CHECK(cheats::grant(ram, Unlock::Items));
+    for (unsigned i = 0; i < g::kItemCount; ++i) CHECK(ram[at(g::kItemsAddress) + i] == 99);
+    CHECK(ram[at(g::kItemsAddress) - 1] == 0 && ram[at(g::kItemsAddress) + g::kItemCount] == 0);
+    CHECK(cheats::grant(ram, Unlock::MaxLevel));
+    CHECK((ram[at(g::kExpAddress)] | (ram[at(g::kExpAddress) + 1] << 8) | (ram[at(g::kExpAddress) + 2] << 16) |
+           (ram[at(g::kExpAddress) + 3] << 24)) == 99999999);
+    CHECK(get16(ram, kHpAddress) == 100);  // unlocks never touch stats
+
     // Garbage (not a loaded game): no writes.
     set16(ram, kHpAddress, 1);
     ram[at(kLevelAddress)] = 200;
@@ -53,6 +71,11 @@ int main() {
     set16(ram, kMaxHpAddress, 60000);
     CHECK(!cheats::apply(ram, all));
     CHECK(get16(ram, kHpAddress) == 1);
+    {
+        std::vector<std::uint8_t> blank(0x40000, 0);
+        CHECK(!cheats::grant(blank, Unlock::Cards));
+        CHECK(blank[at(g::kCardsAddress)] == 0);
+    }
 
     if (failures) std::fprintf(stderr, "%d check(s) failed\n", failures);
     else std::printf("cheats tests passed\n");

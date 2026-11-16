@@ -67,7 +67,7 @@ Everything except F1, Esc and F11 can be rebound in F1 > Controls.
 - **Keyboard and controllers**, with full remapping.
 - **Save states**: ten slots with thumbnails. Quick save and load use Slot 1 unless you pick another.
 - **Fast forward and rewind**: fast forward at 2x or 4x, rewind up to the last 10 seconds.
-- **Cheats** (F1 > Cheats): infinite HP, MP and hearts.
+- **Cheats** (F1 > Cheats): infinite HP, MP and hearts, plus one-time unlocks (all DSS cards, relics, items, max level) that ask before changing your game.
 - **RetroAchievements**, optional. Cheats and rewind are off in hardcore mode.
 - **Import saves** from RetroArch, mGBA, VBA-M and others.
 - **Desktop shortcut** that starts the game directly (Settings > Game > Shortcut).

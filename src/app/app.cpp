@@ -136,6 +136,8 @@ private:
     size_t state_script_pos_ = 0;
     ShortcutPlace pending_shortcut_place_ = ShortcutPlace::Applications;
     bool confirm_shortcut_ = false;
+    int pending_unlock_ = -1;  // cheats::Unlock waiting for the user's OK
+    std::string unlock_msg_;
     std::string bios_checked_path_ = "\x01", bios_status_;
     fs::path current_save_path();
     void prepare_import(const fs::path& file);
@@ -1463,6 +1465,59 @@ void App::draw_cheats_tab(Config& config) {
     if (!allowed) ImGui::TextDisabled("Cheats are off while RetroAchievements hardcore mode is on.");
     else ImGui::TextDisabled("HP, MP and hearts refill up to your current maximums. Cheats stay on until you turn them off.");
     ImGui::PopFont();
+
+    // One-time unlocks: they change the game for good, so each one asks first.
+    struct UnlockItem { cheats::Unlock id; const char* label; const char* help; const char* confirm; };
+    static constexpr UnlockItem kUnlocks[] = {
+        {cheats::Unlock::Cards, "All DSS cards", "Every action and attribute card.",
+         "Nathan gets all 20 DSS cards."},
+        {cheats::Unlock::Relics, "All relics", "Dash Boots, Double, Tackle, Kick Boots, Heavy Ring, Cleansing, Roc Wing and the Last Key.",
+         "Nathan gets every relic, including the Last Key. Areas you would normally unlock later open up now."},
+        {cheats::Unlock::Items, "All items", "99 of every potion, food item, armor, robe, ring and armband.",
+         "Your inventory fills with 99 of every item and piece of equipment."},
+        {cheats::Unlock::MaxLevel, "Max level", "Nathan reaches the top level after the next enemy he defeats.",
+         "Nathan gets enough experience to reach the maximum level after the next enemy he defeats."},
+    };
+    const bool loaded = game_ && cheats::game_loaded(game_->ewram_mut());
+    ImGui::Dummy(ImVec2(0, 8.0f));
+    theme::section("Unlocks");
+    ImGui::BeginDisabled(!allowed || !loaded);
+    for (int i = 0; i < int(std::size(kUnlocks)); ++i) {
+        const UnlockItem& u = kUnlocks[i];
+        if (theme::button(u.label, ImVec2(ImGui::GetContentRegionAvail().x, 0), theme::ButtonKind::Outline)) {
+            pending_unlock_ = i;
+            unlock_msg_.clear();
+        }
+        ImGui::PushFont(theme::font_small());
+        ImGui::TextDisabled("%s", u.help);
+        ImGui::PopFont();
+    }
+    ImGui::EndDisabled();
+    ImGui::PushFont(theme::font_small());
+    if (!unlock_msg_.empty()) ImGui::TextColored(theme::palette().good, "%s", unlock_msg_.c_str());
+    else if (allowed && !loaded) ImGui::TextDisabled("Start or continue a game to use unlocks.");
+    else if (allowed) ImGui::TextDisabled("Unlocks can't be undone once you save in game.");
+    ImGui::PopFont();
+
+    if (pending_unlock_ >= 0) ImGui::OpenPopup("Unlock for good?");
+    if (ImGui::BeginPopupModal("Unlock for good?", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+        const UnlockItem& u = kUnlocks[pending_unlock_ < 0 ? 0 : pending_unlock_];
+        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 26.0f);
+        ImGui::TextUnformatted(u.confirm);
+        ImGui::Dummy(ImVec2(0, 4.0f));
+        ImGui::TextUnformatted("This can't be undone once you save in game. A save state made now lets you go back.");
+        ImGui::PopTextWrapPos();
+        ImGui::Dummy(ImVec2(0, 4.0f));
+        if (ImGui::Button("Unlock")) {
+            const bool ok = game_ && cheats_allowed() && cheats::grant(game_->ewram_mut(), u.id);
+            unlock_msg_ = ok ? std::string(u.label) + " unlocked." : std::string();
+            pending_unlock_ = -1;
+            ImGui::CloseCurrentPopup();
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Cancel")) { pending_unlock_ = -1; ImGui::CloseCurrentPopup(); }
+        ImGui::EndPopup();
+    }
 }
 
 void App::draw_game_tab(Config& config) {

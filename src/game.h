@@ -58,4 +58,22 @@ inline constexpr unsigned kHeartsAddress = 0x0202563C;
 inline constexpr unsigned kMaxHeartsAddress = 0x0202563E;
 inline constexpr unsigned kLevelAddress = 0x02025664;
 
+// One-time unlocks (F1 > Cheats > Unlocks). They change the loaded game for good, so the menu asks
+// first. Addresses from Data Crystal and the Code Breaker codes for this release.
+//   0x02025668 u32 EXP. 99,999,999 makes Nathan level up to the maximum after the next enemy.
+//   0x02025674 20 bytes, one per DSS card (10 action cards Mercury..Pluto, then 10 attribute
+//              cards Salamander..Unicorn); nonzero = owned.
+//   0x020256ED 54 bytes, one count per item (potions, food, armor, clothes, rings, armbands).
+//   0x0202572F 8 bytes, one per relic (Dash Boots, Double, Tackle, Kick Boots, Heavy Ring,
+//              Cleansing, Roc Wing, Last Key); nonzero = owned.
+inline constexpr unsigned kExpAddress = 0x02025668;
+inline constexpr unsigned kMaxExp = 99999999;
+inline constexpr unsigned kCardsAddress = 0x02025674;
+inline constexpr unsigned kCardCount = 20;
+inline constexpr unsigned kItemsAddress = 0x020256ED;
+inline constexpr unsigned kItemCount = 54;
+inline constexpr unsigned kMaxItemStack = 99;
+inline constexpr unsigned kRelicsAddress = 0x0202572F;
+inline constexpr unsigned kRelicCount = 8;
+
 }  // namespace circlemoon::game
