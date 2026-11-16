@@ -1484,7 +1484,7 @@ void App::draw_cheats_tab(Config& config) {
     ImGui::BeginDisabled(!allowed || !loaded);
     for (int i = 0; i < int(std::size(kUnlocks)); ++i) {
         const UnlockItem& u = kUnlocks[i];
-        if (theme::button(u.label, ImVec2(ImGui::GetContentRegionAvail().x, 0), theme::ButtonKind::Outline)) {
+        if (theme::button(u.label, ImVec2(ImGui::GetContentRegionAvail().x, 40.0f), theme::ButtonKind::Outline)) {
             pending_unlock_ = i;
             unlock_msg_.clear();
         }
