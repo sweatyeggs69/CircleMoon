@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=CircleMoon
+GenericName=Castlevania: Circle of the Moon (native)
+Comment=Play your own copy of Castlevania: Circle of the Moon natively
+Exec=circlemoon
+Icon=circlemoon
+StartupWMClass=CircleMoon
+Terminal=false
+Categories=Game;
