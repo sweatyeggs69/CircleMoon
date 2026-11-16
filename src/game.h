@@ -60,10 +60,12 @@ inline constexpr unsigned kLevelAddress = 0x02025664;
 
 // One-time unlocks (F1 > Cheats > Unlocks). They change the loaded game for good, so the menu asks
 // first. Addresses from Data Crystal and the Code Breaker codes for this release.
-//   0x02025668 u32 EXP. 99,999,999 makes Nathan level up to the maximum after the next enemy.
-//   0x02025674 20 bytes, one per DSS card (10 action cards Mercury..Pluto, then 10 attribute
-//              cards Salamander..Unicorn); nonzero = owned.
-//   0x020256ED 54 bytes, one count per item (potions, food, armor, clothes, rings, armbands).
+//   0x02025668 u32 EXP. At 99,999,999 the game levels Nathan up one level about every two
+//              seconds (with the LEVEL UP banner) until level 99, about three minutes.
+//   0x02025674 20 bytes, one per DSS card (10 attribute cards Salamander..Black Dog, then 10
+//              action cards Mercury..Pluto); nonzero = owned. Checked in game 2026-11-16.
+//   0x020256ED 54 bytes, one count per item (body wear, then accessories, then consumables).
+//              The Max Up counters follow at 0x0202572C, so the range must stay 54 bytes.
 //   0x0202572F 8 bytes, one per relic (Dash Boots, Double, Tackle, Kick Boots, Heavy Ring,
 //              Cleansing, Roc Wing, Last Key); nonzero = owned.
 inline constexpr unsigned kExpAddress = 0x02025668;

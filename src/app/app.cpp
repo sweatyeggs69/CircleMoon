@@ -1475,8 +1475,8 @@ void App::draw_cheats_tab(Config& config) {
          "Nathan gets every relic, including the Last Key. Areas you would normally unlock later open up now."},
         {cheats::Unlock::Items, "All items", "99 of every potion, food item, armor, robe, ring and armband.",
          "Your inventory fills with 99 of every item and piece of equipment."},
-        {cheats::Unlock::MaxLevel, "Max level", "Nathan reaches the top level after the next enemy he defeats.",
-         "Nathan gets enough experience to reach the maximum level after the next enemy he defeats."},
+        {cheats::Unlock::MaxLevel, "Max level", "Nathan levels up to 99, one level every couple of seconds.",
+         "Nathan gets maximum experience. The game then levels him up one level at a time, with a LEVEL UP banner every couple of seconds, until he reaches level 99 (about 3 minutes)."},
     };
     const bool loaded = game_ && cheats::game_loaded(game_->ewram_mut());
     ImGui::Dummy(ImVec2(0, 8.0f));

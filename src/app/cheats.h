@@ -9,7 +9,7 @@
 // Settings (circlemoon::Config): cheats.hp, cheats.mp, cheats.hearts (all off by default).
 //
 // Unlocks (grant()) are one-time writes the user asks for from the menu after a confirmation:
-// all DSS cards, all relics, every item, or enough EXP to reach the maximum level. They stay in
+// all DSS cards, all relics, every item, or maximum EXP (the game then levels Nathan up to 99). They stay in
 // the game once it is saved, so the menu says so before applying them.
 #include <cstddef>
 #include <cstdint>
