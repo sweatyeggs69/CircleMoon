@@ -24,6 +24,7 @@ inline constexpr const char* kFileSafeTitle = "Castlevania - Circle of the Moon"
 // GBA cartridge header of the supported dump.
 inline constexpr const char* kHeaderTitle = "DRACULA AGB1";  // 0xA0, 12 bytes
 inline constexpr const char* kGameCode = "AAME";             // 0xAC, 4 bytes
+inline constexpr const char* kMakerCode = "A4";             // 0xB0, 2 bytes (Konami)
 inline constexpr unsigned kRevision = 0;                     // 0xBC
 inline constexpr std::size_t kRomSize = 8 * 1024 * 1024;
 
@@ -32,6 +33,18 @@ inline constexpr std::size_t kRomSize = 8 * 1024 * 1024;
 // emptied, a ROM is accepted on a header match instead and the launcher labels it "header match
 // (fingerprint not pinned yet)".
 inline constexpr const char* kExpectedSha1 = "d661b01eb94186435723ac03344792c11c20c522";
+
+// Other releases of the game, recognised only so the error message can say what the file is.
+// None of them can run: the recompiled code is the USA revision 0 code.
+struct OtherRelease {
+    const char* sha1;       // exact dump, or nullptr to match on the game code alone
+    const char* game_code;  // 0xAC
+    const char* name;       // shown to the user
+};
+inline constexpr OtherRelease kOtherReleases[] = {
+    {nullptr, "AAMP", "a European release"},
+    {nullptr, "AAMJ", "a Japanese release"},
+};
 
 // Battery save: 256 Kbit (32 KiB) SRAM (the ROM carries the SRAM_V110 library string). The runtime
 // picks the chip from that string; this is the size of the save file it writes.
