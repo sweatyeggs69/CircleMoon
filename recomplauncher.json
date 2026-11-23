@@ -3,22 +3,9 @@
   "format": 1,
   "name": "CircleMoon",
   "repo": "sweatyeggs69/CircleMoon",
-  "game": {
-    "kind": "iso",
-    "label": "Your own Game Boy Advance ROM (.gba) of Castlevania: Circle of the Moon, USA release (AGB-AAME), revision 0.",
-    "dumps": [
-      { "name": "USA", "size": 8388608, "crc32": "1CC059A4" }
-    ]
-  },
   "start": {
     "program": ["CircleMoon.exe", "usr/bin/circlemoon", "circlemoon", "AppRun"],
-    "args": ["--game", "{game}"]
-  },
-  "prepare": {
-    "program": ["CircleMoon.exe", "usr/bin/circlemoon", "circlemoon", "AppRun"],
-    "args": ["--prepare", "--game", "{game}"],
-    "label": "Checking your ROM and setting it as CircleMoon's game",
-    "timeout": 60
+    "args": []
   },
   "config": [
     {
@@ -27,8 +14,7 @@
       "file": [
         { "path": "{config}/CircleMoon/CircleMoon/settings.ini", "if": "{config}/Microsoft/Windows" },
         { "path": "{local}/CircleMoon/CircleMoon/settings.ini" }
-      ],
-      "game_path": "rom.path"
+      ]
     }
   ],
   "folders": {
@@ -43,10 +29,6 @@
     "{local}/CircleMoon/CircleMoon/saves",
     "{local}/CircleMoon/CircleMoon/states"
   ],
-  "exit_codes": {
-    "2": "CircleMoon couldn't find your ROM. Pick it again on the game's page.",
-    "3": "That ROM isn't the supported dump. CircleMoon needs Castlevania: Circle of the Moon (USA), revision 0."
-  },
   "settings": [
     {
       "id": "window",
